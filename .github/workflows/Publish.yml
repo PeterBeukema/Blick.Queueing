@@ -29,8 +29,8 @@ jobs:
       
     - name: Pack    
       run: |
-        dotnet pack Source/Blick.Queueing.Abstractions/Blick.Logging.Abstractions.csproj --configuration Release --no-build --output . /p:Version=${VERSION}
-        dotnet pack Source/Blick.Queueing.Core/Blick.Logging.Core.csproj --configuration Release --no-build --output . /p:Version=${VERSION}
+        dotnet pack Source/Blick.Queueing.Abstractions/Blick.Queueing.Abstractions.csproj --configuration Release --no-build --output . /p:Version=${VERSION}
+        dotnet pack Source/Blick.Queueing.Core/Blick.Queueing.Core.csproj --configuration Release --no-build --output . /p:Version=${VERSION}
       
     - name: Push
       run: |
