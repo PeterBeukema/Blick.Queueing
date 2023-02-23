@@ -1,0 +1,38 @@
+name: Publish NuGet Package(s)
+
+on:
+  push:
+    tags:
+    - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:    
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Verify
+      run: |
+        git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+        git branch --remote --contains | grep origin/main
+        
+    - name: Version
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+      
+    - name: Build
+      run: dotnet build Source/Blick.Queueing.sln --configuration Release /p:Version=${VERSION}
+      
+    - name: Test
+      run: dotnet test Source --configuration Release /p:Version=${VERSION} --no-build
+      
+    - name: Pack    
+      run: |
+        dotnet pack Source/Blick.Queueing.Abstractions/Blick.Logging.Abstractions.csproj --configuration Release --no-build --output . /p:Version=${VERSION}
+        dotnet pack Source/Blick.Queueing.Core/Blick.Logging.Core.csproj --configuration Release --no-build --output . /p:Version=${VERSION}
+      
+    - name: Push
+      run: |
+        dotnet nuget push Blick.Queueing.Abstractions.${VERSION}.nupkg --source https://nuget.pkg.github.com/PeterBeukema/index.json --api-key ${{ secrets.PUBLISH_NUGET_PACKAGE_ACCESS_TOKEN }} --skip-duplicate
+        dotnet nuget push Blick.Queueing.Core.${VERSION}.nupkg --source https://nuget.pkg.github.com/PeterBeukema/index.json --api-key ${{ secrets.PUBLISH_NUGET_PACKAGE_ACCESS_TOKEN }} --skip-duplicate
