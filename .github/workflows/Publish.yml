@@ -34,5 +34,5 @@ jobs:
       
     - name: Push
       run: |
-        dotnet nuget push Blick.Queueing.Abstractions.${VERSION}.nupkg --source https://nuget.pkg.github.com/PeterBeukema/index.json --api-key ${{ secrets.PRIVATE_NUGET_REGISTRY_PUBLISH_ACCESS_TOKEN }} --skip-duplicate
-        dotnet nuget push Blick.Queueing.Core.${VERSION}.nupkg --source https://nuget.pkg.github.com/PeterBeukema/index.json --api-key ${{ secrets.PRIVATE_NUGET_REGISTRY_PUBLISH_ACCESS_TOKEN }} --skip-duplicate
+        dotnet nuget push Blick.Queueing.Abstractions.${VERSION}.nupkg --source https://nuget.pkg.github.com/PeterBeukema/index.json --api-key ${{ secrets.NUGET_WRITE_TOKEN }} --skip-duplicate
+        dotnet nuget push Blick.Queueing.Core.${VERSION}.nupkg --source https://nuget.pkg.github.com/PeterBeukema/index.json --api-key ${{ secrets.NUGET_WRITE_TOKEN }} --skip-duplicate
