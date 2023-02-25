@@ -21,7 +21,6 @@ public class MessagePublisher<TSender> : IMessagePublisher<TSender>
         IExchange? exchange = null,
         string? routingKey = null,
         bool? mandatory = true)
-        where TMessage : class, new()
     {
         channelProvider.Channel.QueueDeclare(
             queue: queue.Name,
@@ -45,8 +44,8 @@ public class MessagePublisher<TSender> : IMessagePublisher<TSender>
         }
 
         channelProvider.Channel.BasicPublish(
-            exchange: exchange?.Name,
-            routingKey: routingKey,
+            exchange: exchange?.Name ?? string.Empty,
+            routingKey: routingKey ?? queue.Name,
             mandatory: mandatory ?? true,
             basicProperties: null,
             body: messageBody);

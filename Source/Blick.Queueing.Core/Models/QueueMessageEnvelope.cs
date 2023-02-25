@@ -14,7 +14,6 @@ public class QueueMessageEnvelope
     public string SerializedMessage { get; set; } = string.Empty;
     
     public static QueueMessageEnvelope Create<TMessage, TSender>(TMessage message)
-        where TMessage : class, new()
     {
         if (message == null)
         {
@@ -25,7 +24,7 @@ public class QueueMessageEnvelope
         {
             SenderTypeName = typeof(TSender).FullName!,
             MessageTypeName = typeof(TMessage).FullName!,
-            SerializedMessage = message.Serialize(),
+            SerializedMessage = message as string ?? (message as object).Serialize(),
         };
     }
 }

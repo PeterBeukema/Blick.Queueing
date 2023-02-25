@@ -10,7 +10,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMessageQueueing(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        var optionsConfigurationSection = configuration.GetSection(MessageBrokerOptions.Key);
+        var optionsConfigurationSection = configuration.GetRequiredSection(MessageBrokerOptions.Key);
         
         serviceCollection.Configure<MessageBrokerOptions>(optionsConfigurationSection);
         

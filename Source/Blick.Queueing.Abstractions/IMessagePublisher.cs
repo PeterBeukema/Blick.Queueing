@@ -7,6 +7,5 @@ public interface IMessagePublisher<TSender>
         IQueue queue,
         IExchange? exchange = null,
         string? routingKey = null,
-        bool? mandatory = true)
-        where TMessage : class, new();
+        bool? mandatory = true);
 }
